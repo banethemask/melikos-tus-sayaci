@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melikoş’un TUS Sayacı 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(to bottom right, #ffe0f0, #e0f7fa);
+      color: #4a148c;
+      transition: all 0.5s ease;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      color: #d63384;
+      margin-bottom: 15px;
+    }
+
+    #countdown {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    #quote {
+      font-size: 1.1em;
+      max-width: 700px;
+      padding: 15px;
+      background-color: #ffffffcc;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #ffb6c1;
+    }
+
+    #new-quote {
+      margin-top: 15px;
+      padding: 8px 14px;
+      font-size: 0.9em;
+      border: none;
+      border-radius: 20px;
+      background-color: #f48fb1;
+      color: white;
+      cursor: pointer;
+    }
+
+    #new-quote:hover {
+      background-color: #ec407a;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5em; }
+      #countdown { font-size: 1.2em; }
+      #quote { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Melikoş’un TUS’u kazanmasına kalan süre 💖</h1>
+  <div id="countdown">Yükleniyor...</div>
+  <div id="quote">"Bugünün ilham cümlesi yükleniyor..."</div>
+  <button id="new-quote">Yeni Söz 🔄</button>
+
+  <canvas id="confetti-canvas" class="confetti"></canvas>
+
+  <script>
+    const examDate = new Date("2025-08-17T10:15:00");
+
+    const quotes = [
+      "Melike Bıyıkcı, sen bu işi alırsın! 🌟",
+      "Her geçen saniye seni hedefe yaklaştırıyor! 💖",
+      "Çünkü sen azimlisin, güçlüsün, MÜKEMMELSİN! 💪",
+      "Bugün biraz daha yaklaştın başarıya! 🌈",
+      "Melike Bıyıkcı = Geleceğin Doktoru 😍",
+      "Başarı, hazırlığın fırsatla buluştuğu andır. – Seneca",
+      "Asla vazgeçme. Büyük şeyler zaman alır. – Zig Ziglar",
+      "Güçlü ol çünkü her şey daha iyi olacak. – Charlie Chaplin",
+      "İmkansız, yalnızca bir kelimedir. – Muhammad Ali",
+      "Başarı cesaretin çocuğudur. – Benjamin Disraeli",
+      "Kendine inandığında her şey mümkündür. 💫",
+      "Melikoş, hayalin çok yakın! 🦋"
+    ];
+
+    function updateCountdown() {
+      const now = new Date();
+      const distance = examDate - now;
+
+      if (distance <= 0) {
+        document.getElementById("countdown").innerText = "🎉 TUS BİTTİ! MELIKOŞ BAŞARDI! 🎉";
+        document.getElementById("quote").innerText = "🎓 Artık karşınızda Dr. Melike Bıyıkcı! 👩‍⚕️ Gurur Duyuyoruz! 💖";
+        launchConfetti();
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      document.getElementById("countdown").innerText =
+        `${days} Gün ${hours} Saat ${minutes} Dakika ${seconds} Saniye`;
+    }
+
+    function setRandomQuote() {
+      const index = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote").innerText = quotes[index];
+    }
+
+    function launchConfetti() {
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+      const colors = ['#bb0000', '#ffffff', '#ff69b4', '#f06292'];
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: colors
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    document.getElementById("new-quote").addEventListener("click", setRandomQuote);
+
+    updateCountdown();
+    setRandomQuote();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</body>
+</html>
